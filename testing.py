@@ -2,6 +2,8 @@ import mediapipe as mp
 import cv2
 
 cap = cv2.VideoCapture(0)
+cap.set(3, 854)
+cap.set(4, 480)
 mp_holistic = mp.solutions.holistic
 mp_drawing = mp.solutions.drawing_utils
 with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
@@ -20,7 +22,9 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
         mp_drawing.draw_landmarks(image, results.right_hand_landmarks, mp_holistic.HAND_CONNECTIONS)
         mp_drawing.draw_landmarks(image, results.left_hand_landmarks, mp_holistic.HAND_CONNECTIONS)
 
-        cv2.imshow("camera", cv2.flip(image, 1))
+        cv2.namedWindow("live camera")
+        # cv2.resizeWindow("live camera", 1920, 1080)
+        cv2.imshow("live camera", cv2.flip(image, 1))
 
         if cv2.waitKey(10) == ord("q"):
             break
