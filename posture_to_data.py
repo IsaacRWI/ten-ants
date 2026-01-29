@@ -10,7 +10,9 @@ def get_landmark_from_image(image_path):
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         results = holistic.process(image)
 
-        if results.pose_landmark:
+        if results.pose_landmarks:
             landmarks = results.pose_landmarks.landmark
             return np.array([[lm.x, lm.y, lm.z] for lm in landmarks])
     return None
+
+print(get_landmark_from_image("photo1.jpg"))
