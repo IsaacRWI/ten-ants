@@ -28,7 +28,7 @@ def calc_angle(a, b, c):
 
     return angle
 
-def get_angles(landmarks):
+def get_elbow_angles(landmarks):
     angles = dict()
     if landmarks.any():
         lshoulder = [landmarks[mp_holistic.PoseLandmark.LEFT_SHOULDER.value][0],
@@ -53,13 +53,22 @@ def get_angles(landmarks):
         left_angle = calc_angle(lshoulder, lelbow, lwrist)
         right_angle = calc_angle(rshoulder, relbow, rwrist)
 
-        angles["left_elbow_angle"] = left_angle
+        angles["left_elbow_angle"] = left_angle  # left hand actually corresponds to your left hand in person not on camera
         angles["right_elbow_angle"] = right_angle
 
     return angles
 
+def get_hand_state(landmarks):
+    thumb_tip = landmarks[mp_holistic.HandLandmark.THUMB_TIP.value]
+    index_tip = landmarks[mp_holistic.HandLandmark.INDEX_FINGER_TIP.value]
+    middle_tip = landmarks[mp_holistic.HandLandmark.MIDDLE_FINGER_TIP.value]
+    ring_tip = landmarks[mp_holistic.HandLandmark.RING_FINGER_TIP.value]
+    pinky_tip = landmarks[mp_holistic.HandLandmark.PINKY_TIP.value]
 
 
-print(get_landmark_from_image("photo1.jpg"))
-photo1_angle = get_angles(get_landmark_from_image("photo1.jpg"))
-print(photo1_angle)
+
+
+
+# print(get_landmark_from_image("photo3.jpg"))
+# photo1_angle = get_angles(get_landmark_from_image("photo3.jpg"))
+# print(photo1_angle)

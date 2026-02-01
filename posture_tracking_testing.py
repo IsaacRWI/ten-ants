@@ -24,7 +24,8 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
 
         cv2.namedWindow("live camera")
         # cv2.resizeWindow("live camera", 1920, 1080)
-        cv2.imshow("live camera", cv2.flip(image, 1))
+        cv2.imshow("live camera", cv2.flip(image,1))
+        # cv2.imshow("live camera", image)
 
         if cv2.waitKey(10) == ord("q"):
             break
