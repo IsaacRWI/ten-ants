@@ -59,11 +59,23 @@ def get_elbow_angles(landmarks):
     return angles
 
 def get_hand_state(landmarks):
-    thumb_tip = landmarks[mp_holistic.HandLandmark.THUMB_TIP.value]
-    index_tip = landmarks[mp_holistic.HandLandmark.INDEX_FINGER_TIP.value]
-    middle_tip = landmarks[mp_holistic.HandLandmark.MIDDLE_FINGER_TIP.value]
-    ring_tip = landmarks[mp_holistic.HandLandmark.RING_FINGER_TIP.value]
-    pinky_tip = landmarks[mp_holistic.HandLandmark.PINKY_TIP.value]
+    thumb_tip = landmarks[mp_holistic.HandLandmark.THUMB_TIP.value][1]
+    index_tip = landmarks[mp_holistic.HandLandmark.INDEX_FINGER_TIP.value][1]
+    middle_tip = landmarks[mp_holistic.HandLandmark.MIDDLE_FINGER_TIP.value][1]
+    ring_tip = landmarks[mp_holistic.HandLandmark.RING_FINGER_TIP.value][1]
+    pinky_tip = landmarks[mp_holistic.HandLandmark.PINKY_TIP.value][1]
+
+    if thumb_tip > index_tip > middle_tip > ring_tip > pinky_tip:
+        return "thumbs_up"
+    elif (thumb_tip < index_tip < middle_tip and
+        middle_tip > ring_tip > pinky_tip):
+        return "open"
+    elif (index_tip > thumb_tip and
+        index_tip > middle_tip and
+        index_tip > ring_tip and
+        index_tip > pinky_tip):
+        return "pointing"
+    return "unknown"
 
 
 
