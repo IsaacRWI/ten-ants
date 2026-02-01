@@ -1,14 +1,13 @@
-from unittest.mock import right
-
 import cv2
 import mediapipe as mp
 import numpy as np
+mp_holistic = mp.solutions.holistic
 
 def get_landmark_from_image(image_path):
     mp_holistic = mp.solutions.holistic
     with mp_holistic.Holistic(static_image_mode=True) as holistic:
         image = cv2.imread(image_path)
-        image = cv2.flip(image, 1)
+        # image = cv2.flip(image, 1)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         results = holistic.process(image)
 
@@ -32,9 +31,10 @@ def calc_angle(a, b, c):
 
 def get_angles(landmarks):
     angles = dict()
-    if landmarks:
-        lshoulder = [landmarks[mp.pose.PoseLandmark.LEFT_SHOULDER.value].x,
-                     landmarks[mp.pose.PoseLandmark.LEFT_SHOULDER.value].y]
+    if landmarks.any():
+        lshoulder = [landmarks[mp_holistic.PoseLandmark.LEFT_SHOULDER.value][0],
+                     landmarks[mp_holistic.PoseLandmark.LEFT_SHOULDER.value][1]]
+        # print(lshoulder)
 
         lelbow = [landmarks[mp.pose.PoseLandmark.LEFT_ELBOW.value].x,
                   landmarks[mp.pose.PoseLandmark.LEFT_ELBOW.value].y]
@@ -62,3 +62,5 @@ def get_angles(landmarks):
 
 
 print(get_landmark_from_image("photo1.jpg"))
+photo1_angle = get_angles(get_landmark_from_image("photo1.jpg"))
+print(photo1_angle)
