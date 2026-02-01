@@ -4,7 +4,6 @@ import numpy as np
 mp_holistic = mp.solutions.holistic
 
 def get_landmark_from_image(image_path):
-    mp_holistic = mp.solutions.holistic
     with mp_holistic.Holistic(static_image_mode=True) as holistic:
         image = cv2.imread(image_path)
         # image = cv2.flip(image, 1)
@@ -36,26 +35,26 @@ def get_angles(landmarks):
                      landmarks[mp_holistic.PoseLandmark.LEFT_SHOULDER.value][1]]
         # print(lshoulder)
 
-        lelbow = [landmarks[mp.pose.PoseLandmark.LEFT_ELBOW.value].x,
-                  landmarks[mp.pose.PoseLandmark.LEFT_ELBOW.value].y]
+        lelbow = [landmarks[mp_holistic.PoseLandmark.LEFT_ELBOW.value][0],
+                  landmarks[mp_holistic.PoseLandmark.LEFT_ELBOW.value][1]]
 
-        lwrist = [landmarks[mp.pose.PoseLandmark.LEFT_WRIST.value].x,
-                  landmarks[mp.pose.PoseLandmark.LEFT_WRIST.value].y]
+        lwrist = [landmarks[mp_holistic.PoseLandmark.LEFT_WRIST.value][0],
+                  landmarks[mp_holistic.PoseLandmark.LEFT_WRIST.value][1]]
 
-        rshoulder = [landmarks[mp.pose.PoseLandmark.RIGHT_SHOULDER.value].x,
-                    landmarks[mp.pose.PoseLandmark.RIGHT_SHOULDER.value].y]
+        rshoulder = [landmarks[mp_holistic.PoseLandmark.RIGHT_SHOULDER.value][0],
+                    landmarks[mp_holistic.PoseLandmark.RIGHT_SHOULDER.value][1]]
 
-        relbow = [landmarks[mp.pose.PoseLandmark.RIGHT_ELBOW.value].x,
-                 landmarks[mp.pose.PoseLandmark.RIGHT_ELBOW.value].y]
+        relbow = [landmarks[mp_holistic.PoseLandmark.RIGHT_ELBOW.value][0],
+                 landmarks[mp_holistic.PoseLandmark.RIGHT_ELBOW.value][1]]
 
-        rwrist = [landmarks[mp.pose.PoseLandmark.RIGHT_WRIST.value].x,
-                 landmarks[mp.pose.PoseLandmark.RIGHT_WRIST.value].y]
+        rwrist = [landmarks[mp_holistic.PoseLandmark.RIGHT_WRIST.value][0],
+                 landmarks[mp_holistic.PoseLandmark.RIGHT_WRIST.value][1]]
 
         left_angle = calc_angle(lshoulder, lelbow, lwrist)
         right_angle = calc_angle(rshoulder, relbow, rwrist)
 
-        angles["left_elbow"] = left_angle
-        angles["right_elbow"] = right_angle
+        angles["left_elbow_angle"] = left_angle
+        angles["right_elbow_angle"] = right_angle
 
     return angles
 
