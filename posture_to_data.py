@@ -15,6 +15,22 @@ def get_landmark_from_image(image_path):
             return np.array([[lm.x, lm.y, lm.z] for lm in landmarks])
     return None
 
+def get_hand_landmarks_from_image(image_path):
+    with mp_holistic.Holistic(static_image_mode=True) as holistic:
+        image = cv2.imread(image_path)
+        # image = cv2.flip(image, 1)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        results = holistic.process(image)
+        hand_landmarks = dict()
+
+        if results.left_hand_landmarks:
+            left_hand_landmarks = np.array([[lm.x, lm.y, lm.z] for lm in results.left_hand_landmarks.landmark])
+            hand_landmarks["left_hand"] = left_hand_landmarks
+        if results.right_hand_landmarks:
+            right_hand_landmarks = np.array([[lm.x, lm.y, lm.z] for lm in results.right_hand_landmarks.landmark])
+            hand_landmarks["right_hand"] = right_hand_landmarks
+        return hand_landmarks
+
 def calc_angle(a, b, c):
     a = np.array(a)
     b = np.array(b)
@@ -78,9 +94,9 @@ def get_hand_state(landmarks):
     return "unknown"
 
 
-
-
-
-# print(get_landmark_from_image("photo3.jpg"))
-# photo1_angle = get_angles(get_landmark_from_image("photo3.jpg"))
+photo1_landmarks = get_landmark_from_image("photo3.jpg")
+photo1_angle = get_elbow_angles(get_landmark_from_image("photo3.jpg"))
 # print(photo1_angle)
+photo1_hand_landmarks = get_hand_landmarks_from_image("photo1.jpg")
+print(photo1_hand_landmarks)
+print(get_hand_state(photo1_hand_landmarks["right_hand"]))
