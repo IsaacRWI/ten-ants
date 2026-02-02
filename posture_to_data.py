@@ -75,28 +75,35 @@ def get_elbow_angles(landmarks):
     return angles
 
 def get_hand_state(landmarks):
-    thumb_tip = landmarks[mp_holistic.HandLandmark.THUMB_TIP.value][1]
-    index_tip = landmarks[mp_holistic.HandLandmark.INDEX_FINGER_TIP.value][1]
-    middle_tip = landmarks[mp_holistic.HandLandmark.MIDDLE_FINGER_TIP.value][1]
-    ring_tip = landmarks[mp_holistic.HandLandmark.RING_FINGER_TIP.value][1]
-    pinky_tip = landmarks[mp_holistic.HandLandmark.PINKY_TIP.value][1]
+    if landmarks.any():
+        print("dict is not empty")
+        thumb_tip = landmarks[mp_holistic.HandLandmark.THUMB_TIP.value][1]
+        index_tip = landmarks[mp_holistic.HandLandmark.INDEX_FINGER_TIP.value][1]
+        middle_tip = landmarks[mp_holistic.HandLandmark.MIDDLE_FINGER_TIP.value][1]
+        ring_tip = landmarks[mp_holistic.HandLandmark.RING_FINGER_TIP.value][1]
+        pinky_tip = landmarks[mp_holistic.HandLandmark.PINKY_TIP.value][1]
+        print(thumb_tip)
+        print(index_tip)
+        print(middle_tip)
+        print(ring_tip)
+        print(pinky_tip)
 
-    if thumb_tip > index_tip > middle_tip > ring_tip > pinky_tip:
-        return "thumbs_up"
-    elif (thumb_tip < index_tip < middle_tip and
-        middle_tip > ring_tip > pinky_tip):
-        return "open"
-    elif (index_tip > thumb_tip and
-        index_tip > middle_tip and
-        index_tip > ring_tip and
-        index_tip > pinky_tip):
-        return "pointing"
-    return "unknown"
+        if thumb_tip > index_tip > middle_tip > ring_tip > pinky_tip:
+            return "thumbs_up"
+        elif (thumb_tip < index_tip < middle_tip and
+            middle_tip > ring_tip > pinky_tip):
+            return "open"
+        elif (index_tip > thumb_tip and
+            index_tip > middle_tip and
+            index_tip > ring_tip and
+            index_tip > pinky_tip):
+            return "pointing"
+        return "unknown"
 
 
 photo1_landmarks = get_landmark_from_image("photo3.jpg")
 photo1_angle = get_elbow_angles(get_landmark_from_image("photo3.jpg"))
 # print(photo1_angle)
-photo1_hand_landmarks = get_hand_landmarks_from_image("photo1.jpg")
+photo1_hand_landmarks = get_hand_landmarks_from_image("pointing.jpg")
 print(photo1_hand_landmarks)
 print(get_hand_state(photo1_hand_landmarks["right_hand"]))
