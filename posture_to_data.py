@@ -88,22 +88,22 @@ def get_hand_state(landmarks):
         print(ring_tip)
         print(pinky_tip)
 
-        if thumb_tip > index_tip > middle_tip > ring_tip > pinky_tip:
+        if thumb_tip < index_tip < middle_tip < ring_tip < pinky_tip:
             return "thumbs_up"
-        elif (thumb_tip < index_tip < middle_tip and
-            middle_tip > ring_tip > pinky_tip):
+        elif (thumb_tip > index_tip > middle_tip and
+            middle_tip < ring_tip < pinky_tip):
             return "open"
-        elif (index_tip > thumb_tip and
-            index_tip > middle_tip and
-            index_tip > ring_tip and
-            index_tip > pinky_tip):
+        elif (index_tip < thumb_tip and
+            index_tip < middle_tip and
+            index_tip < ring_tip and
+            index_tip < pinky_tip):
             return "pointing"
-        return "unknown"
+        return "unknown pose"
 
 
 photo1_landmarks = get_landmark_from_image("photo3.jpg")
 photo1_angle = get_elbow_angles(get_landmark_from_image("photo3.jpg"))
 # print(photo1_angle)
-photo1_hand_landmarks = get_hand_landmarks_from_image("pointing.jpg")
+photo1_hand_landmarks = get_hand_landmarks_from_image("thumbs up.jpg")
 print(photo1_hand_landmarks)
 print(get_hand_state(photo1_hand_landmarks["right_hand"]))
