@@ -2,6 +2,7 @@ import cv2
 import mediapipe as mp
 import numpy as np
 mp_holistic = mp.solutions.holistic
+from photos import *
 
 def get_landmark_from_image(image_path):
     with mp_holistic.Holistic(static_image_mode=True) as holistic:
@@ -105,18 +106,43 @@ def get_hand_state(landmarks):
         return "unknown pose"
     else: print("error")
 
+def get_arms_state(landmarks):
+    if landmarks:
+        print("landmarks present")
+        angles = get_elbow_angles(landmarks)
+
+        if angles["left_elbow_angle"] > 160.0 and  130.0 < angles["right_elbow_angle"] < 180.0:
+            return "arm_pointing"
+        elif angles["left_elbow_angle"] > 160.0 and angles["right_elbow_angle"] < 10.0:
+            return "arm_to_mouth"
+        elif 100.0 < angles["left_elbow_angle"] < 120.0 and  100.0 < angles["right_elbow_angle"] < 120.0:
+            return "arms_over_head"
+        elif 80.0 < angles["left_elbow_angle"] < 100.0 and  80.0 < angles["right_elbow_angle"] < 100.0:
+            return "arms_up"
+        elif 10.0 < angles["left_elbow_angle"] < 30.0 and  15.0 < angles["right_elbow_angle"] < 20.0:
+            return "business_hands"
+        elif 0.0 < angles["left_elbow_angle"] < 15.0 and  0.0 < angles["right_elbow_angle"] < 15.0:
+            return "choking"
+        elif 20.0 < angles["left_elbow_angle"] < 25.0 and  20.0 < angles["right_elbow_angle"] < 25.0:
+            return "pause"
+        elif angles["left_elbow_angle"] > 140.0 and  20.0 < angles["right_elbow_angle"] < 30.0:
+            return "right_arm_up"
+        return "unknown_pose"
+    return "error"
 
 
 def testing():
     photo1_landmarks = get_landmark_from_image("photo3.jpg")
     photo1_angle = get_elbow_angles(get_landmark_from_image("photo3.jpg"))
-    print(photo1_angle)
+    # print(photo1_angle)
     photo1_hand_landmarks = get_hand_landmarks_from_image("thumbs up.jpg")
     # print("photo1 right hand landmarks")
     # print(photo1_hand_landmarks)
     # print(get_hand_state(photo1_hand_landmarks))
     # print(photo1_hand_landmarks[mp_holistic.HandLandmark.THUMB_TIP])
-
+    test_photo = get_landmark_from_image("photos/pause.jpg")
+    print(get_elbow_angles(test_photo))
+    print(get_arms_state(test_photo))
 testing()
 
 
