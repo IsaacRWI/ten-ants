@@ -21,15 +21,18 @@ def get_hand_landmarks_from_image(image_path):
         # image = cv2.flip(image, 1)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         results = holistic.process(image)
-        hand_landmarks = dict()
+        # print(results.right_hand_landmarks)
+        #hand_landmarks = []
 
-        if results.left_hand_landmarks:
-            left_hand_landmarks = np.array([[lm.x, lm.y, lm.z] for lm in results.left_hand_landmarks.landmark])
-            hand_landmarks["left_hand"] = left_hand_landmarks
-        if results.right_hand_landmarks:
-            right_hand_landmarks = np.array([[lm.x, lm.y, lm.z] for lm in results.right_hand_landmarks.landmark])
-            hand_landmarks["right_hand"] = right_hand_landmarks
-        return hand_landmarks
+        # if results.left_hand_landmarks:
+            # left_hand_landmarks = np.array([[lm.x, lm.y, lm.z] for lm in results.left_hand_landmarks.landmark])
+            # hand_landmarks["left_hand"] = left_hand_landmarks
+            # hand_landmarks.append(results.left_hand_landmarks)
+        # if results.right_hand_landmarks:
+            # right_hand_landmarks = np.array([[lm.x, lm.y, lm.z] for lm in results.right_hand_landmarks.landmark])
+            # hand_landmarks["right_hand"] = right_hand_landmarks
+            # hand_landmarks.append(results.right_hand_landmarks)
+        return results.right_hand_landmarks
 
 def calc_angle(a, b, c):
     a = np.array(a)
@@ -75,13 +78,13 @@ def get_elbow_angles(landmarks):
     return angles
 
 def get_hand_state(landmarks):
-    if landmarks.any():
+    if landmarks:
         print("dict is not empty")
-        thumb_tip = landmarks[mp_holistic.HandLandmark.THUMB_TIP.value][1]
-        index_tip = landmarks[mp_holistic.HandLandmark.INDEX_FINGER_TIP.value][1]
-        middle_tip = landmarks[mp_holistic.HandLandmark.MIDDLE_FINGER_TIP.value][1]
-        ring_tip = landmarks[mp_holistic.HandLandmark.RING_FINGER_TIP.value][1]
-        pinky_tip = landmarks[mp_holistic.HandLandmark.PINKY_TIP.value][1]
+        thumb_tip = landmarks.landmark[mp_holistic.HandLandmark.THUMB_TIP.value].y
+        index_tip = landmarks.landmark[mp_holistic.HandLandmark.INDEX_FINGER_TIP.value].y
+        middle_tip = landmarks.landmark[mp_holistic.HandLandmark.MIDDLE_FINGER_TIP.value].y
+        ring_tip = landmarks.landmark[mp_holistic.HandLandmark.RING_FINGER_TIP.value].y
+        pinky_tip = landmarks.landmark[mp_holistic.HandLandmark.PINKY_TIP.value].y
         print(thumb_tip)
         print(index_tip)
         print(middle_tip)
@@ -99,11 +102,23 @@ def get_hand_state(landmarks):
             index_tip < pinky_tip):
             return "pointing"
         return "unknown pose"
+    else: print("error")
 
 
-photo1_landmarks = get_landmark_from_image("photo3.jpg")
-photo1_angle = get_elbow_angles(get_landmark_from_image("photo3.jpg"))
-# print(photo1_angle)
-photo1_hand_landmarks = get_hand_landmarks_from_image("thumbs up.jpg")
-print(photo1_hand_landmarks)
-print(get_hand_state(photo1_hand_landmarks["right_hand"]))
+
+def testing():
+    photo1_landmarks = get_landmark_from_image("photo3.jpg")
+    photo1_angle = get_elbow_angles(get_landmark_from_image("photo3.jpg"))
+    # print(photo1_angle)
+    photo1_hand_landmarks = get_hand_landmarks_from_image("thumbs up.jpg")
+    print("photo1 right hand landmarks")
+    print(photo1_hand_landmarks)
+    print(get_hand_state(photo1_hand_landmarks))
+    # print(photo1_hand_landmarks[mp_holistic.HandLandmark.THUMB_TIP])
+
+# testing()
+
+
+
+
+

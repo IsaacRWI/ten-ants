@@ -1,5 +1,6 @@
 import mediapipe as mp
 import cv2
+from posture_to_data import get_hand_state
 
 cap = cv2.VideoCapture(0)
 cap.set(3, 854)
@@ -19,8 +20,15 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
 
         mp_drawing.draw_landmarks(image, results.face_landmarks, mp_holistic.FACEMESH_TESSELATION)
         mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_holistic.POSE_CONNECTIONS)
-        mp_drawing.draw_landmarks(image, results.right_hand_landmarks, mp_holistic.HAND_CONNECTIONS)
+
         mp_drawing.draw_landmarks(image, results.left_hand_landmarks, mp_holistic.HAND_CONNECTIONS)
+
+        if results.right_hand_landmarks:
+            mp_drawing.draw_landmarks(image, results.right_hand_landmarks, mp_holistic.HAND_CONNECTIONS)
+            hand_state = get_hand_state(results.right_hand_landmarks)
+            # print(results.right_hand_landmarks)
+            print(hand_state)
+
 
         cv2.namedWindow("live camera")
         # cv2.resizeWindow("live camera", 1920, 1080)
