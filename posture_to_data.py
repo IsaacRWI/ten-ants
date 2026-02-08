@@ -11,8 +11,9 @@ def get_landmark_from_image(image_path):
         results = holistic.process(image)
 
         if results.pose_landmarks:
-            landmarks = results.pose_landmarks.landmark
-            return np.array([[lm.x, lm.y, lm.z] for lm in landmarks])
+            # landmarks = results.pose_landmarks.landmark
+            # return np.array([[lm.x, lm.y, lm.z] for lm in landmarks])
+            return results.pose_landmarks
     return None
 
 def get_hand_landmarks_from_image(image_path):
@@ -49,25 +50,25 @@ def calc_angle(a, b, c):
 
 def get_elbow_angles(landmarks):
     angles = dict()
-    if landmarks.any():
-        lshoulder = [landmarks[mp_holistic.PoseLandmark.LEFT_SHOULDER.value][0],
-                     landmarks[mp_holistic.PoseLandmark.LEFT_SHOULDER.value][1]]
+    if landmarks:
+        lshoulder = [landmarks.landmark[mp_holistic.PoseLandmark.LEFT_SHOULDER.value].x,
+                     landmarks.landmark[mp_holistic.PoseLandmark.LEFT_SHOULDER.value].y]
         # print(lshoulder)
 
-        lelbow = [landmarks[mp_holistic.PoseLandmark.LEFT_ELBOW.value][0],
-                  landmarks[mp_holistic.PoseLandmark.LEFT_ELBOW.value][1]]
+        lelbow = [landmarks.landmark[mp_holistic.PoseLandmark.LEFT_ELBOW.value].x,
+                  landmarks.landmark[mp_holistic.PoseLandmark.LEFT_ELBOW.value].y]
 
-        lwrist = [landmarks[mp_holistic.PoseLandmark.LEFT_WRIST.value][0],
-                  landmarks[mp_holistic.PoseLandmark.LEFT_WRIST.value][1]]
+        lwrist = [landmarks.landmark[mp_holistic.PoseLandmark.LEFT_WRIST.value].x,
+                  landmarks.landmark[mp_holistic.PoseLandmark.LEFT_WRIST.value].y]
 
-        rshoulder = [landmarks[mp_holistic.PoseLandmark.RIGHT_SHOULDER.value][0],
-                    landmarks[mp_holistic.PoseLandmark.RIGHT_SHOULDER.value][1]]
+        rshoulder = [landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_SHOULDER.value].x,
+                    landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_SHOULDER.value].y]
 
-        relbow = [landmarks[mp_holistic.PoseLandmark.RIGHT_ELBOW.value][0],
-                 landmarks[mp_holistic.PoseLandmark.RIGHT_ELBOW.value][1]]
+        relbow = [landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_ELBOW.value].x,
+                 landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_ELBOW.value].y]
 
-        rwrist = [landmarks[mp_holistic.PoseLandmark.RIGHT_WRIST.value][0],
-                 landmarks[mp_holistic.PoseLandmark.RIGHT_WRIST.value][1]]
+        rwrist = [landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_WRIST.value].x,
+                 landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_WRIST.value].y]
 
         left_angle = calc_angle(lshoulder, lelbow, lwrist)
         right_angle = calc_angle(rshoulder, relbow, rwrist)
@@ -109,14 +110,14 @@ def get_hand_state(landmarks):
 def testing():
     photo1_landmarks = get_landmark_from_image("photo3.jpg")
     photo1_angle = get_elbow_angles(get_landmark_from_image("photo3.jpg"))
-    # print(photo1_angle)
+    print(photo1_angle)
     photo1_hand_landmarks = get_hand_landmarks_from_image("thumbs up.jpg")
-    print("photo1 right hand landmarks")
-    print(photo1_hand_landmarks)
-    print(get_hand_state(photo1_hand_landmarks))
+    # print("photo1 right hand landmarks")
+    # print(photo1_hand_landmarks)
+    # print(get_hand_state(photo1_hand_landmarks))
     # print(photo1_hand_landmarks[mp_holistic.HandLandmark.THUMB_TIP])
 
-# testing()
+testing()
 
 
 
