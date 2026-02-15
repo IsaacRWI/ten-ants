@@ -81,7 +81,7 @@ def get_elbow_angles(landmarks):
 
 def get_hand_state(landmarks):
     if landmarks:
-        print("dict is not empty")
+        # print("dict is not empty")
         thumb_tip = landmarks.landmark[mp_holistic.HandLandmark.THUMB_TIP.value].y
         index_tip = landmarks.landmark[mp_holistic.HandLandmark.INDEX_FINGER_TIP.value].y
         middle_tip = landmarks.landmark[mp_holistic.HandLandmark.MIDDLE_FINGER_TIP.value].y
@@ -95,25 +95,27 @@ def get_hand_state(landmarks):
 
         if thumb_tip < index_tip < middle_tip < ring_tip < pinky_tip:
             return "thumbs_up"
-        elif (thumb_tip > index_tip > middle_tip and
-            middle_tip < ring_tip < pinky_tip):
-            return "open"
+        elif index_tip < thumb_tip < ring_tip < pinky_tip and middle_tip < thumb_tip < ring_tip < pinky_tip:
+            return "peace"
         elif (index_tip < thumb_tip and
             index_tip < middle_tip and
             index_tip < ring_tip and
             index_tip < pinky_tip):
             return "pointing"
+        elif (thumb_tip > index_tip > middle_tip and
+            middle_tip < ring_tip < pinky_tip):
+            return "open"
         elif thumb_tip > index_tip > middle_tip > ring_tip > pinky_tip:
             return "thumbs_down"
         return "unknown pose"
-    else: print("error")
+    else: return "error"
 
 def get_arms_state(landmarks):
     if landmarks:
-        print("landmarks present")
+        # print("landmarks present")
         angles = get_elbow_angles(landmarks)
 
-        if angles["left_elbow_angle"] > 160.0 and  angles["right_elbow_angle"] > 100 and landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_ELBOW.value].y < landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_SHOULDER.value].y:
+        if angles["left_elbow_angle"] > 160.0 and  angles["right_elbow_angle"] >  100 and landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_ELBOW.value].y < landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_SHOULDER.value].y:
             return "arm_pointing"
         elif angles["left_elbow_angle"] > 160.0 and angles["right_elbow_angle"] < 15.0:
             return "arm_to_mouth"
@@ -125,26 +127,39 @@ def get_arms_state(landmarks):
             return "business_hands"
         elif 0.0 < angles["left_elbow_angle"] < 30 and  0.0 < angles["right_elbow_angle"] < 30 and landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_WRIST.value].y > landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_SHOULDER.value].y:
             return "choking"
-        elif 50 < angles["left_elbow_angle"] < 70 and angles["right_elbow_angle"] < 10:
+        elif 30 < angles["left_elbow_angle"] < 50 and angles["right_elbow_angle"] < 10:
             return "pause"
         elif angles["left_elbow_angle"] > 160.0 and  20.0 < angles["right_elbow_angle"] < 30.0 and landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_ELBOW.value].y > landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_SHOULDER.value].y:
             return "right_arm_up"
+        elif landmarks.landmark[mp_holistic.PoseLandmark.LEFT_ELBOW.value].y > landmarks.landmark[mp_holistic.PoseLandmark.LEFT_WRIST.value].y:
+            return "left_arm_up"
         return "unknown_pose"
     return "error"
 
+def get_mouth_state(landmarks):
+    if landmarks.face_landmarks:
+        upper_lip = landmarks.face_landmarks.landmark[13]
+        lower_lip = landmarks.face_landmarks.landmark[14]
+        # print(upper_lip.y)
+        # print(lower_lip.y)
+        if lower_lip.y - upper_lip.y >= 0.02:
+            return "mouth_open"
+        return "mouth_closed"
+    return "error"
 
 def testing():
-    photo1_landmarks = get_landmark_from_image("photo3.jpg")
-    photo1_angle = get_elbow_angles(get_landmark_from_image("photo3.jpg"))
+    # photo1_landmarks = get_landmark_from_image("photo3.jpg")
+    # photo1_angle = get_elbow_angles(get_landmark_from_image("photo3.jpg"))
     # print(photo1_angle)
-    photo1_hand_landmarks = get_hand_landmarks_from_image("thumbs up.jpg")
+    # photo1_hand_landmarks = get_hand_landmarks_from_image("thumbs up.jpg")
     # print("photo1 right hand landmarks")
     # print(photo1_hand_landmarks)
     # print(get_hand_state(photo1_hand_landmarks))
     # print(photo1_hand_landmarks[mp_holistic.HandLandmark.THUMB_TIP])
-    test_photo = get_landmark_from_image("photos/pause.jpg")
-    print(get_elbow_angles(test_photo))
-    print(get_arms_state(test_photo))
+    test_photo = get_landmark_from_image("photos/choking.jpg")
+    # print(get_elbow_angles(test_photo))
+    # print(get_arms_state(test_photo))
+    print(get_mouth_state(test_photo))
 # testing()
 
 
