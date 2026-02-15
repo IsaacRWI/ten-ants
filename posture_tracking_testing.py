@@ -1,6 +1,8 @@
+import time
 import mediapipe as mp
 import cv2
-from posture_to_data import get_hand_state
+from posture_to_data import get_hand_state, get_arms_state, get_elbow_angles
+import os
 
 cap = cv2.VideoCapture(0)
 cap.set(3, 854)
@@ -19,20 +21,27 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
         mp_drawing.draw_landmarks(image, results.face_landmarks, mp_holistic.FACEMESH_TESSELATION)
-        mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_holistic.POSE_CONNECTIONS)
 
         mp_drawing.draw_landmarks(image, results.left_hand_landmarks, mp_holistic.HAND_CONNECTIONS)
 
-        if results.right_hand_landmarks:
-            mp_drawing.draw_landmarks(image, results.right_hand_landmarks, mp_holistic.HAND_CONNECTIONS)
-            hand_state = get_hand_state(results.right_hand_landmarks)
-            # print(results.right_hand_landmarks)
-            print(hand_state)
+        # if results.right_hand_landmarks:
+        mp_drawing.draw_landmarks(image, results.right_hand_landmarks, mp_holistic.HAND_CONNECTIONS)
+        hand_state = get_hand_state(results.right_hand_landmarks)
+        # print(results.right_hand_landmarks)
+        print(hand_state)
 
+        mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_holistic.POSE_CONNECTIONS)
+        arm_state = get_arms_state(results.pose_landmarks)
+        print(get_elbow_angles(results.pose_landmarks))
+        print(arm_state)
+        # time.sleep(0.01)
+        # os.system("cls")
 
         cv2.namedWindow("live camera")
         # cv2.resizeWindow("live camera", 1920, 1080)
-        cv2.imshow("live camera", cv2.flip(image,1))
+        image = cv2.flip(image,1)
+        cv2.putText(image, f"state: {arm_state}, {hand_state}", (10, 30), cv2.QT_FONT_NORMAL, 0.8, (255, 0, 255), 1, cv2.LINE_AA)
+        cv2.imshow("live camera", image)
         # cv2.imshow("live camera", image)
 
         if cv2.waitKey(10) == ord("q"):
