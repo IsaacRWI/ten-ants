@@ -2,6 +2,7 @@ import time
 import mediapipe as mp
 import cv2
 from posture_to_data import get_hand_state, get_arms_state, get_elbow_angles, get_mouth_state
+from tracking_to_image import state_to_meme
 import os
 
 cap = cv2.VideoCapture(0)
@@ -43,8 +44,10 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
         # cv2.resizeWindow("live camera", 854, 480)
         # cv2.resize(image, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
         image = cv2.flip(image,1)
-        overlay = cv2.resize(cv2.imread("memes/clown to clown communication.jpg"), (720, 720))
-        image[0:720, 280:1000] = overlay  # (y, x)
+        meme = state_to_meme(arm_state, hand_state, mouth_state)
+        if meme:
+            overlay = cv2.resize(cv2.imread(meme), (900, 720))  #(x, y)
+            image[0:720, 190:1090] = overlay  # (y, x)
         cv2.putText(image, f"state: {arm_state}, {hand_state}, {mouth_state}", (10, 30), cv2.QT_FONT_NORMAL, 0.8, (255, 0, 255), 1, cv2.LINE_AA)
         cv2.imshow("live camera", image)
         # cv2.imshow("live camera", image)
