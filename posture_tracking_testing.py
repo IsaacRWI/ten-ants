@@ -1,6 +1,9 @@
 import time
 import mediapipe as mp
 import cv2
+from playsound import playsound
+import threading
+
 from posture_to_data import get_hand_state, get_arms_state, get_elbow_angles, get_mouth_state
 from tracking_to_image import state_to_meme
 import os
@@ -46,11 +49,14 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
         image = cv2.flip(image,1)
         meme = state_to_meme(arm_state, hand_state, mouth_state)
         if meme:
-            overlay = cv2.resize(cv2.imread(meme), (900, 720))  #(x, y)
+            overlay = cv2.resize(cv2.imread(meme[0]), (900, 720))  #(x, y)
             image[0:720, 190:1090] = overlay  # (y, x)
+            sound = threading.Thread(target=playsound, args=(meme[1],))
+            sound.start()
         cv2.putText(image, f"state: {arm_state}, {hand_state}, {mouth_state}", (10, 30), cv2.QT_FONT_NORMAL, 0.8, (255, 0, 255), 1, cv2.LINE_AA)
         cv2.imshow("live camera", image)
         # cv2.imshow("live camera", image)
+        # playsound(meme[1])
 
         if cv2.waitKey(10) == ord("q"):
             break
