@@ -1,33 +1,33 @@
 from memes import *
 def state_to_meme(arm_state, hand_state, mouth_state):
     if arm_state:
-        if arm_state == "arm_pointing" and hand_state == "pointing": return "memes/cat pointing.jpg"
-        elif arm_state == "arms_over_head" and mouth_state == "mouth_closed" and hand_state == "error": return "memes/monke in distress.jpg"
-        elif arm_state == "arm_to_mouth" and hand_state == "pointing": return "memes/monke thinking.jpg"
-        elif arm_state == "arm_to_mouth" and hand_state == "thumbs_up": return "memes/house.jpg"
-        elif arm_state == "arms_up" and hand_state == "open" and mouth_state == "mouth_closed": return "memes/absolute cinema.jpg"
-        elif arm_state == "right_arm_up" and hand_state == "pointing" : return "memes/nerd.jpg"
-        elif arm_state == "pause" and mouth_state == "mouth_closed": return "memes/pause.jpg"
-        elif arm_state == "arm_pointing" and hand_state == "open": return "memes/biden blast.jpg"
-        elif arm_state == "business_hands" and hand_state == "thumbs_up" and mouth_state == "mouth_closed": return "memes/trade offer.jpg"
-        elif arm_state == "choking" and mouth_state == "mouth_closed": return "memes/choking.jpg"
-        elif arm_state == "arm_pointing" and hand_state == "thumbs_up": return "memes/cat thumbs up.jpg"
-        elif arm_state == "choking" and hand_state != "open" and mouth_state == "mouth_open": return "memes/monke clutching pearls.jpg"
-        elif arm_state == "arms_up" and hand_state == "peace": return "memes/peace.png"
-        elif arm_state == "left_arm_up" and hand_state == "pointing": return "memes/job.png"
-        elif arm_state == "arm_ pointing" and hand_state == "thumbs_down": return "memes/thumbs down.jpg"
-        elif arm_state == "arm_to_mouth" and hand_state == "open": return "memes/rage baiting.jpg"
-        elif arm_state == "arms_over_head" and mouth_state == "mouth_open": return "memes/whistle.jpg"
-        elif arm_state == "arm_to_mouth" and hand_state == "peace": return "memes/clown to clown communication.jpg"
-        elif arm_state == "left_arm_up" and hand_state == "thumbs_up": return "memes/rahhh.jpg"
-        elif arm_state == "arms_over_head" and hand_state == "thumbs_down": return "memes/lobotomy.jpg"
-        elif arm_state == "arm_to_mouth" and hand_state == "thumbs_down": return "memes/tough baby.jpg"
-        elif arm_state == "choking" and hand_state == "open": return "memes/sunshine.jpg"
-        elif arm_state == "left_arm_up" and hand_state == "open": return "memes/gfn.jpg"
-        elif arm_state == "right_arm_up" and mouth_state == "mouth_open" and hand_state == "open": return "memes/squirrel eviscerated.jpeg"
-        elif arm_state == "right_arm_up" and hand_state == "thumbs_up": return "memes/speed.jpg"
-        elif arm_state == "arms_up" and hand_state == "pointing": return "memes/honse rollercoaster.jpg"
-        elif arm_state == "arms_up" and hand_state == "thumbs_up": return "memes/trapped.jpg"
-        elif arm_state == "arms_up" and hand_state == "open" and mouth_state == "mouth_open": return "memes/ash baby.jpg"
-        elif arm_state == "arms_over_head" and hand_state == "peace" and mouth_state == "mouth_open": return "memes/sigma wolf.jpg"
+        if arm_state == "arm_pointing" and hand_state == "pointing": return ["memes/cat pointing.jpg", "sounds/cat.mp3"]
+        elif arm_state == "arms_over_head" and mouth_state == "mouth_closed" and hand_state == "error": return ["memes/monke in distress.jpg", "sounds/bell.mp3"]
+        elif arm_state == "arm_to_mouth" and hand_state == "pointing": return ["memes/monke thinking.jpg", "sounds/bell.mp3"]
+        elif arm_state == "arm_to_mouth" and hand_state == "thumbs_up": return ["memes/house.jpg", "sounds/boom.mp3"]
+        elif arm_state == "arms_up" and hand_state == "open" and mouth_state == "mouth_closed": return ["memes/absolute cinema.jpg", "sounds/boom.mp3"]
+        elif arm_state == "right_arm_up" and hand_state == "pointing" : return ["memes/nerd.jpg", "sounds/lobotomy.mp3"]
+        elif arm_state == "pause" and mouth_state == "mouth_closed": return ["memes/pause.jpg", "sounds/bell.mp3"]
+        elif arm_state == "arm_pointing" and hand_state == "open": return ["memes/biden blast.jpg","sounds/fahh.mp3"]
+        elif arm_state == "business_hands" and hand_state == "thumbs_up" and mouth_state == "mouth_closed": return ["memes/trade offer.jpg", "sounds/boom.mp3"]
+        elif arm_state == "choking" and mouth_state == "mouth_closed": return ["memes/choking.jpg", "sounds/fahh.mp3"]
+        elif arm_state == "arm_pointing" and hand_state == "thumbs_up": return ["memes/cat thumbs up.jpg","sounds/bell.mp3"]
+        elif arm_state == "choking" and hand_state != "open" and mouth_state == "mouth_open": return ["memes/monke clutching pearls.jpg", "sounds/boom.mp3"]
+        elif arm_state == "arms_up" and hand_state == "peace": return ["memes/peace.png", "sounds/transform.mp3"]
+        elif arm_state == "left_arm_up" and hand_state == "pointing": return ["memes/job.png", "sounds/fahh.mp3"]
+        elif arm_state == "arm_ pointing" and hand_state == "thumbs_down": return ["memes/thumbs down.jpg", "sounds/pipe.mp3"]
+        elif arm_state == "arm_to_mouth" and hand_state == "open": return ["memes/rage baiting.jpg", "sounds/fahh.mp3"]
+        elif arm_state == "arms_over_head" and mouth_state == "mouth_open": return ["memes/whistle.jpg", "sounds/whistle.mp3"]
+        elif arm_state == "arm_to_mouth" and hand_state == "peace": return ["memes/clown to clown communication.jpg", "sounds/transform.mp3"]
+        elif arm_state == "left_arm_up" and hand_state == "thumbs_up": return ["memes/rahhh.jpg","sounds/rahh.mp3"]
+        elif arm_state == "arms_over_head" and hand_state == "thumbs_down": return ["memes/lobotomy.jpg", "sounds/lobotomy.mp3"]
+        elif arm_state == "arm_to_mouth" and hand_state == "thumbs_down": return ["memes/tough baby.jpg", "sounds/pipe.mp3"]
+        elif arm_state == "choking" and hand_state == "open": return ["memes/sunshine.jpg", "sounds/sunshine.mp3"]
+        elif arm_state == "left_arm_up" and hand_state == "open": return ["memes/gfn.jpg", "sounds/fahh.mp3"]
+        elif arm_state == "right_arm_up" and mouth_state == "mouth_open" and hand_state == "open": return ["memes/squirrel eviscerated.jpeg", "sounds/lobotomy.mp3"]
+        elif arm_state == "right_arm_up" and hand_state == "thumbs_up": return ["memes/speed.jpg", "sounds/fahh.mp3"]
+        elif arm_state == "arms_up" and hand_state == "pointing": return ["memes/honse rollercoaster.jpg", "sounds/boom.mp3"]
+        elif arm_state == "arms_up" and hand_state == "thumbs_up": return ["memes/trapped.jpg", "sounds/transform.mp3"]
+        elif arm_state == "arms_up" and hand_state == "open" and mouth_state == "mouth_open": return ["memes/ash baby.jpg", "sounds/ash.mp3"]
+        elif arm_state == "right_arm_up" and hand_state == "peace" and mouth_state == "mouth_open": return ["memes/sigma wolf.jpg", "sounds/lobotomy.mp3"]
     return None
