@@ -2,7 +2,7 @@ import cv2
 import mediapipe as mp
 import numpy as np
 mp_holistic = mp.solutions.holistic
-from photos import *
+# from photos import *
 
 def get_landmark_from_image(image_path):
     with mp_holistic.Holistic(static_image_mode=True) as holistic:
@@ -119,9 +119,9 @@ def get_arms_state(landmarks):
             return "arm_pointing"
         elif angles["left_elbow_angle"] > 160.0 and angles["right_elbow_angle"] < 15.0:
             return "arm_to_mouth"
-        elif 65 < angles["left_elbow_angle"] < 90 and  65 < angles["right_elbow_angle"] < 90 and landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_WRIST.value].y < landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_SHOULDER.value].y:
+        elif 65 < angles["left_elbow_angle"] < 110 and  65 < angles["right_elbow_angle"] < 110 and landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_WRIST.value].y < landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_SHOULDER.value].y:
             return "arms_over_head"
-        elif 40 < angles["left_elbow_angle"] < 80 and  40 < angles["right_elbow_angle"] < 80 and landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_WRIST.value].y < landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_SHOULDER.value].y:
+        elif 13 < angles["left_elbow_angle"] < 80 and  13 < angles["right_elbow_angle"] < 80 and landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_WRIST.value].y < landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_SHOULDER.value].y:
             return "arms_up"
         elif 35 < angles["left_elbow_angle"] < 60 and  35 < angles["right_elbow_angle"] < 60 and landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_WRIST.value].y > landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_SHOULDER.value].y:
             return "business_hands"
@@ -129,7 +129,7 @@ def get_arms_state(landmarks):
             return "choking"
         elif 30 < angles["left_elbow_angle"] < 50 and angles["right_elbow_angle"] < 10:
             return "pause"
-        elif angles["left_elbow_angle"] > 160.0 and  20.0 < angles["right_elbow_angle"] < 30.0 and landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_ELBOW.value].y > landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_SHOULDER.value].y:
+        elif angles["left_elbow_angle"] > 160.0 and  13 < angles["right_elbow_angle"] < 40.0 and landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_ELBOW.value].y > landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_SHOULDER.value].y:
             return "right_arm_up"
         elif landmarks.landmark[mp_holistic.PoseLandmark.LEFT_ELBOW.value].y > landmarks.landmark[mp_holistic.PoseLandmark.LEFT_WRIST.value].y:
             return "left_arm_up"
